@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../contexts/CartContext';
 import { TrashIcon, CloseIcon } from './IconComponents';
+import CheckoutModal from './CheckoutModal';
 
 const CartSidebar: React.FC = () => {
   const { isCartOpen, toggleCart, cart, removeFromCart, updateQuantity, cartTotal, cartItemCount, clearCart } = useCart();
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+
+  const handleCheckoutClick = () => {
+    toggleCart(); // Fecha o carrinho
+    setIsCheckoutOpen(true); // Abre o modal de checkout
+  };
 
   return (
     <>
@@ -68,7 +75,9 @@ const CartSidebar: React.FC = () => {
                <span className="font-semibold text-gray-300 text-lg">Subtotal</span>
                <span className="font-bold text-white text-xl">R${cartTotal.toFixed(2).replace('.', ',')}</span>
             </div>
-            <button className="w-full bg-gradient-to-r from-brand-cyan to-brand-purple text-white font-bold py-3 px-4 rounded-lg transition-transform duration-300 hover:scale-105 mb-2">
+            <button 
+              onClick={handleCheckoutClick}
+              className="w-full bg-gradient-to-r from-brand-cyan to-brand-purple text-white font-bold py-3 px-4 rounded-lg transition-transform duration-300 hover:scale-105 mb-2">
               Finalizar Compra
             </button>
             <button 
@@ -80,6 +89,7 @@ const CartSidebar: React.FC = () => {
           </footer>
         )}
       </aside>
+      <CheckoutModal isOpen={isCheckoutOpen} onClose={() => setIsCheckoutOpen(false)} />
     </>
   );
 };

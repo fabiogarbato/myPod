@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { CartProvider } from './contexts/CartContext';
+import { OrderProvider } from './contexts/OrderContext';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -12,7 +13,9 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <CartProvider>
-      <App />
+      <OrderProvider>
+        <App />
+      </OrderProvider>
     </CartProvider>
   </React.StrictMode>
 );

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { LogoIcon, CartIcon, SearchIcon } from './IconComponents';
+import { LogoIcon, CartIcon, SearchIcon, ReceiptIcon } from './IconComponents';
 import { useCart } from '../contexts/CartContext';
 import SearchModal from './SearchModal';
+import MyPurchasesModal from './MyPurchasesModal';
 
 interface HeaderProps {
   heroRef: React.RefObject<HTMLElement>;
@@ -12,6 +13,7 @@ const Header: React.FC<HeaderProps> = ({ heroRef, productsRef }) => {
   const { toggleCart, cartItemCount } = useCart();
   const [isItemAdded, setIsItemAdded] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isPurchasesOpen, setIsPurchasesOpen] = useState(false);
   const prevCartItemCount = useRef(cartItemCount);
 
   useEffect(() => {
@@ -50,6 +52,13 @@ const Header: React.FC<HeaderProps> = ({ heroRef, productsRef }) => {
             >
               <SearchIcon className="h-6 w-6" />
             </button>
+            <button
+              onClick={() => setIsPurchasesOpen(true)}
+              className="text-gray-300 hover:text-brand-cyan transition-colors duration-300"
+              aria-label="Minhas Compras"
+            >
+              <ReceiptIcon className="h-6 w-6" />
+            </button>
             <button 
               id="cart-icon-button"
               onClick={toggleCart} 
@@ -67,6 +76,7 @@ const Header: React.FC<HeaderProps> = ({ heroRef, productsRef }) => {
         </div>
       </header>
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      <MyPurchasesModal isOpen={isPurchasesOpen} onClose={() => setIsPurchasesOpen(false)} />
     </>
   );
 };

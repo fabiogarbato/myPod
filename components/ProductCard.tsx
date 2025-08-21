@@ -1,7 +1,5 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Product } from '../types';
-import { generateFlavorDescription } from '../services/geminiService';
-import { WandIcon, LoadingSpinnerIcon } from './IconComponents';
 import { useCart } from '../contexts/CartContext';
 
 interface ProductCardProps {
@@ -11,9 +9,6 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
   const { addToCart } = useCart();
-  const [description, setDescription] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -63,20 +58,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
   };
 
   const selectedColor = colorVariants[product.color];
-
-  const handleGenerateDescription = useCallback(async () => {
-    setIsLoading(true);
-    setError('');
-    setDescription('');
-    try {
-      const generatedDesc = await generateFlavorDescription(product.name, product.flavors);
-      setDescription(generatedDesc);
-    } catch (err) {
-      setError("Falha ao gerar a descrição.");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [product.name, product.flavors]);
 
   const handleAddToCart = () => {
     const imgElement = imgRef.current;
@@ -136,26 +117,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
         <p className="text-2xl font-bold text-brand-cyan">R${product.price.toFixed(2).replace('.',',')}</p>
       </div>
       <div className="flex-grow min-h-[6rem] mb-4">
-        {isLoading ? (
-          <div className="flex items-center justify-center h-full">
-            <LoadingSpinnerIcon />
-          </div>
-        ) : description ? (
-          <p className="text-gray-400 text-sm break-words">{description}</p>
-        ) : (
-          <p className="text-gray-500 text-sm italic">Clique abaixo para ver as notas de sabor da IA...</p>
-        )}
-        {error && <p className="text-red-500 text-sm mt-2 break-words">{error}</p>}
+        <p className="text-gray-400 text-sm">{product.description}</p>
       </div>
       
       <div className="mt-auto flex flex-col gap-2">
-         <button 
-           onClick={handleGenerateDescription}
-           disabled={isLoading}
-           className="w-full flex items-center justify-center gap-2 bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold py-2 px-4 rounded-lg transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-            <WandIcon className="w-5 h-5"/>
-            Gerar Notas de Sabor
-         </button>
         <button 
           onClick={handleAddToCart}
           className={`w-full bg-gradient-to-r ${selectedColor.button} text-white font-bold py-3 px-4 rounded-lg transition-transform duration-300 hover:scale-105 active:scale-100`}>
