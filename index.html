@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vibe Vapes - O Futuro do Sabor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      }
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      @keyframes pop {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.25); }
+        100% { transform: scale(1); }
+      }
+      .animate-pop {
+        animation: pop 0.3s ease-out;
+      }
+      /* Adicionado para a Modal de Busca */
+      @keyframes modal-fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes content-slide-down {
+        from { transform: translateY(-20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      .animate-modal-fade-in {
+        animation: modal-fade-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .animate-content-slide-down {
+        animation: content-slide-down 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      @keyframes result-item-fade-in {
+        from { opacity: 0; transform: translateX(-10px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+      .animate-result-item-fade-in {
+        animation: result-item-fade-in 0.3s ease-out forwards;
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Poppins', 'sans-serif'],
+            },
+            colors: {
+              'brand-cyan': '#00F5D4',
+              'brand-purple': '#9B5DE5',
+              'brand-pink': '#F15BB5',
+              'dark-bg': '#121212',
+              'light-dark': '#1E1E1E',
+            },
+            boxShadow: {
+              'glow-cyan': '0 0 15px 0 rgba(0, 245, 212, 0.4)',
+              'glow-purple': '0 0 15px 0 rgba(155, 93, 229, 0.4)',
+              'glow-pink': '0 0 15px 0 rgba(241, 91, 181, 0.4)',
+            },
+            animation: {
+              pop: 'pop 0.3s ease-out',
+            },
+            keyframes: {
+              pop: {
+                '0%, 100%': { transform: 'scale(1)' },
+                '50%': { transform: 'scale(1.25)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://esm.sh/@google/genai@^1.15.0",
+    "react/": "https://esm.sh/react@^19.1.1/",
+    "react": "https://esm.sh/react@^19.1.1",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.1/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-dark-bg text-gray-200 overflow-x-hidden">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
